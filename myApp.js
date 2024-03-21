@@ -3,7 +3,7 @@ let app = express();
 let helmet = require("helmet");
 
 app.use(helmet.hidePoweredBy({ setTo: "PHP 4.2.0" }));
-
+app.use(helmet.frameguard({action: 'deny'}));
 
 
 
