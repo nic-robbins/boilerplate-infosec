@@ -1,20 +1,33 @@
 let express = require("express");
 let app = express();
+//requiring helmet
 let helmet = require("helmet");
-let ninetyDaysInSeconds = 90*24*60*60;
-
-app.use(helmet.hidePoweredBy({ setTo: "PHP 4.2.0" }));
-app.use(helmet.frameguard({action: 'deny'}));
+//let ninetyDaysInSeconds = 90*24*60*60;
+//hiding powered by:
+app.use(helmet.hidePoweredBy({setTo: "PHP 4.2.0" }));
+/*app.use(helmet.frameguard({action: 'deny'}));
 app.use(helmet.xssFilter());
 app.use(helmet.noSniff());
 app.use(helmet.ieNoOpen());
 app.use(helmet.hsts({maxAge: ninetyDaysInSeconds, force: true}));
 app.use(helmet.dnsPrefetchControl());
+
+app.use(helmet.contentSecurityPolicy({directives: {defaultSrc:(["'self'"]), scriptSrc:["'self'", 'trusted-cdn.com']}}));
+*/
+//simplifying the code above into a readable block, including all of the above
 app.use(helmet.noCache());
-
-
-
-
+app.use (helmet({
+  frameguard: {
+    action: 'deny'
+  },
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", 'trusted-dcn.com'],
+    }
+  },
+  dnsPrefetchControl: false,
+}))
 
 
 
